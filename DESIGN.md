@@ -1,6 +1,6 @@
-# RevealX — Design Notes
+# RevealX Design 👀
 
-## The problem
+## The problem 😒
 
 Password fields in the browser are rendered as dots or asterisks by design.
 That's correct behavior for a login form someone else might be looking over
