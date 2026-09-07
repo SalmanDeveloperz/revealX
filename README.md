@@ -1,4 +1,6 @@
-# RevealX
+### RevealX <img src="https://github.com/user-attachments/assets/25a1cff2-7a9d-41d7-8d10-d54c523eaeb4" width="32" alt="RevealX">
+
+
 
 A browser extension that shows the actual value typed into a password
 field, on demand, without breaking on React, Vue, or other frameworks that
