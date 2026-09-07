@@ -1,0 +1,16 @@
+flowchart TD
+    A[Page loads] --> B[content.js injected by the browser]
+    B --> C[Scan DOM for input type=password]
+    C --> D[Walk into open shadow roots]
+    D --> E[Wrap each field: add eye icon + hidden badge]
+    E --> F[MutationObserver watches for fields added later]
+    F -->|new field appears| C
+
+    G[User clicks eye icon] --> H[Read input.value directly]
+    H --> I[Render value in floating badge]
+    I --> J[Poll every 250ms while badge is open]
+    J --> H
+    I --> K{User action}
+    K -->|clicks Copy| L[Write to clipboard, auto-hide after 1s]
+    K -->|clicks outside / Escape| M[Hide badge]
+    K -->|clicks eye icon again| M

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Password Field Test Harness</title>
+<style>
+  body { font-family: system-ui, sans-serif; max-width: 640px; margin: 40px auto; line-height: 1.5; }
+  section { border: 1px solid #ddd; border-radius: 8px; padding: 16px 20px; margin-bottom: 20px; }
+  h2 { font-size: 16px; margin-top: 0; }
+  p.desc { color: #555; font-size: 14px; }
+  input { padding: 8px; font-size: 14px; width: 260px; }
+  label { display: block; margin-top: 10px; font-weight: 600; font-size: 13px; }
+</style>
+</head>
+<body>
+<h1>Password Field Test Harness</h1>
+<p>Each section below simulates a different real-world case where password fields get hidden.
+Reload the extension and this page, then test the 👁 icon on every one.</p>
+
+<section>
+  <h2>1. Plain vanilla input (no framework)</h2>
+  <p class="desc">The simplest case — a static HTML password field with no JS behind it.</p>
+  <label>Password</label>
+  <input type="password" id="plain" value="PlainSecret123">
+</section>
+
+<section>
+  <h2>2. Framework-style "controlled input" (simulates React/Swagger UI)</h2>
+  <p class="desc">
+    This field is re-rendered by a timer every 500ms, exactly like a React component
+    re-asserting its own state. This is the case that broke the v1 toggle-based approach —
+    the field's <code>type</code> attribute gets forced back to "password" repeatedly.
+  </p>
+  <label>Password</label>
+  <input type="password" id="controlled" value="ReactStyleSecret456">
+</section>
+
+<section>
+  <h2>3. Value set programmatically, no keystrokes fired</h2>
+  <p class="desc">
+    Simulates an API client or password manager filling the field via JS without
+    triggering a normal "input" event — the reason the extension polls the value
+    instead of relying only on keystroke events.
+  </p>
+  <label>Password (auto-filled after 2s)</label>
+  <input type="password" id="programmatic" placeholder="(waiting for autofill...)">
+</section>
+
+<section>
+  <h2>4. Field inside Shadow DOM</h2>
+  <p class="desc">
+    Some component libraries (web components, some design systems) render inputs inside
+    a shadow root, which a plain <code>querySelectorAll</code> cannot see into.
+    This is a known limitation — see note below.
+  </p>
+  <div id="shadow-host"></div>
+</section>
+
+<script>
+  // Case 2: fight the extension the same way Swagger UI's React tree does.
+  const controlled = document.getElementById('controlled');
+  setInterval(() => {
+    if (controlled.type !== 'password') {
+      controlled.type = 'password'; // force it back, mimicking a framework re-render
+    }
+  }, 500);
+
+  // Case 3: simulate a password manager or API client setting .value with no keystrokes.
+  setTimeout(() => {
+    document.getElementById('programmatic').value = 'ProgrammaticSecret789';
+  }, 2000);
+
+  // Case 4: a password field trapped inside a shadow root.
+  const host = document.getElementById('shadow-host');
+  const shadow = host.attachShadow({ mode: 'open' });
+  shadow.innerHTML = `
+    <label style="display:block;font-weight:600;font-size:13px;">Password (shadow DOM)</label>
+    <input type="password" value="ShadowSecret000" style="padding:8px;font-size:14px;width:260px;">
+  `;
+</script>
+</body>
+</html>

@@ -1,0 +1,69 @@
+.revealx-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.revealx-wrapper input[type="password"] {
+  padding-right: 28px !important;
+  box-sizing: border-box;
+}
+
+.revealx-eye-btn {
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1;
+  padding: 2px 4px;
+  opacity: 0.6;
+}
+
+.revealx-eye-btn:hover {
+  opacity: 1;
+}
+
+/* Attached to <body>, positioned via JS, so it's never subject to the
+   host page's own overflow/z-index rules. */
+.revealx-badge {
+  display: none;
+  position: absolute;
+  z-index: 2147483647;
+  align-items: center;
+  gap: 8px;
+  background: #1f2430;
+  color: #f5f5f5;
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  font-size: 13px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+  max-width: 420px;
+}
+
+.revealx-badge.revealx-visible {
+  display: inline-flex;
+}
+
+.revealx-badge-text {
+  word-break: break-all;
+  user-select: text;
+}
+
+.revealx-badge-copy {
+  flex-shrink: 0;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: transparent;
+  color: inherit;
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.revealx-badge-copy:hover {
+  background: rgba(255, 255, 255, 0.12);
+}

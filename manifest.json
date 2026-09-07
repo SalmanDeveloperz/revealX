@@ -1,0 +1,16 @@
+{
+  "manifest_version": 3,
+  "name": "RevealX",
+  "version": "1.0.0",
+  "description": "Reveals what's actually typed into a password field, without fighting the page for control of it.",
+  "permissions": [],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "css": ["content.css"],
+      "run_at": "document_idle",
+      "all_frames": true
+    }
+  ]
+}
