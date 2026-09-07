@@ -1,6 +1,6 @@
-# RevealX Design 👀
+# RevealX Design
 
-## The problem 😒
+## The problem 👀
 
 Password fields in the browser are rendered as dots or asterisks by design.
 That's correct behavior for a login form someone else might be looking over
@@ -21,7 +21,7 @@ several forms already. The interesting part of this project wasn't the idea,
 it was getting a naive version of it to actually survive contact with modern
 frontend frameworks.
 
-## First attempt, and why it failed
+## First attempt, and why it failed 😫
 
 The first version toggled the field's `type` attribute directly:
 
@@ -46,7 +46,7 @@ what happened testing against a FastAPI Swagger docs page: the eye icon
 flipped state, but the field kept showing dots, because some unrelated
 re-render kept winning the fight over the `type` attribute.
 
-## The fix: stop fighting for control
+## The fix: stop fighting for control 😅
 
 The insight that made this work reliably: mutating a framework-controlled
 element is unsafe, but *reading* from it is always safe. `input.value`
@@ -64,7 +64,7 @@ identically whether the underlying page is static HTML, React, Vue, or a web
 component, because it never enters into a disagreement with any of them
 about what the DOM should contain.
 
-## Filling in the remaining gaps
+## Filling in the remaining gaps 
 
 Reading `.value` on click covers typing, but two more cases needed handling:
 
@@ -79,7 +79,7 @@ Reading `.value` on click covers typing, but two more cases needed handling:
   or otherwise. That's not a gap to fix, it's the platform doing what it's
   supposed to.
 
-## Architecture
+## Architecture ☠
 
 Single content script, no background worker, no permissions beyond running
 on page load. There's no server, no network calls, and no data leaves the
@@ -104,7 +104,7 @@ flowchart TD
     K -->|clicks eye icon again| M
 ```
 
-### Why a floating badge instead of an inline overlay
+### Why a floating badge instead of an inline overlay 🧐
 
 The badge is appended to `document.body` and positioned with
 `getBoundingClientRect()`, rather than being nested inside the page's own
