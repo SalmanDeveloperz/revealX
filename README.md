@@ -19,18 +19,31 @@ Escape key, or clicking outside the tooltip closes it.
 
 This isn't published to a browser extension store. Load it manually:
 
-1. Download or clone this repository.
-2. Open `chrome://extensions` (or `edge://extensions` on Edge).
-3. Turn on **Developer mode** (top right).
-4. Click **Load unpacked** and select the `revealx` folder.
+**1.  Clone or download this repository.**
+   - Clone this repo
+     ```bash
+     https://github.com/SalmanDeveloperz/revealX.git
+     ```
 
-No permissions are requested. The extension reads the DOM of the current
+        **OR**
+  
+   - Click on the **Download ZIP** button
+     
+     <img width="416" height="378" alt="image" src="https://github.com/user-attachments/assets/8f2c2703-1fdc-40fb-92c4-86c710d7f5a9" />
+
+**2. Open `chrome://extensions` (or `edge://extensions` on Edge).**
+
+**3. Turn on **Developer mode** (top right).**
+
+**4. Click **Load unpacked** and select the `revealx` folder.**
+
+No permissions are requested. The extension reads the **DOM** of the current
 page only; nothing is sent anywhere.
 
 ## Usage
 
-Click the eye icon next to any password field to reveal its current value.
-Click the Copy button in the tooltip to copy it to your clipboard, the
+Click the **eye** 👁 icon next to any password field to reveal its current value.
+Click the **Copy** 📋 button in the tooltip to copy it to your clipboard, the
 tooltip closes automatically about a second after a successful copy.
 
 ## Testing
@@ -49,6 +62,54 @@ python3 -m http.server 8000
 ```
 
 Then open `http://localhost:8000/test-page.html`.
+
+<img width="1385" height="974" alt="image" src="https://github.com/user-attachments/assets/ee0f26fc-fc5f-44c1-b98f-6051ae7b2f88" />
+
+
+## Architecture
+
+```mermaid
+flowchart TD
+    A[Page loads] --> B[content.js injected by the browser]
+    B --> C[Scan DOM for input type=password]
+    C --> D[Walk into open shadow roots]
+    D --> E[Wrap each field: add eye icon + hidden badge]
+    E --> F[MutationObserver watches for fields added later]
+    F -->|new field appears| C
+
+    G[User clicks eye icon] --> H[Read input.value directly]
+    H --> I[Render value in floating badge]
+    I --> J[Poll every 250ms while badge is open]
+    J --> H
+    I --> K{User action}
+    K -->|clicks Copy| L[Write to clipboard, auto-hide after 1s]
+    K -->|clicks outside / Escape| M[Hide badge]
+    K -->|clicks eye icon again| M
+```
+
+## Interaction lifecycle
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant Icon as Eye icon
+    participant Badge as Floating badge
+    participant Field as Password input
+
+    User->>Icon: click
+    Icon->>Field: read .value
+    Icon->>Badge: show with current value
+    loop every 250ms while open
+        Badge->>Field: re-read .value
+        Badge->>Badge: update text + reposition
+    end
+    User->>Badge: click Copy
+    Badge->>Badge: write to clipboard
+    Badge->>Badge: auto-hide after 1s
+    User->>Icon: click again (alternative path)
+    Icon->>Badge: hide
+```
+
 
 ## Limitations
 
@@ -72,4 +133,8 @@ credentials.
 
 MIT, see [LICENSE](./LICENSE).
 
-### © Made with ❤ by Muhammad Salman
+<p align="center">
+  <a href="https://github.com/SalmanDeveloperz">
+    <img src="https://img.shields.io/badge/Made%20With%20❤️%20By-Muhammad%20Salman-blue" />
+  </a>
+</p>
