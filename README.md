@@ -12,7 +12,7 @@ modern frontends, and the architecture diagrams.
 
 ## What it does
 
-Adds a small eye icon inside every password field on a page. Clicking it
+Adds a small **eye** 👁 icon inside every password field on a page. Clicking it
 opens a floating tooltip showing the field's current value in plain text,
 live-updated as you type, with a copy button. Clicking the icon again, the
 Escape key, or clicking outside the tooltip closes it.
