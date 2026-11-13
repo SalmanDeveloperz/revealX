@@ -6,7 +6,7 @@ A browser extension that shows the actual value typed into a password
 field, on demand, without breaking on React, Vue, or other frameworks that
 re-render the field and undo naive attempts at this.
 
-See [DESIGN.md](./DESIGN.md) for the reasoning behind how this works, why a
+See the [DESIGN.md](./DESIGN.md) for the reasoning behind how this works, why a
 more obvious approach (toggling the field's `type` attribute) fails on
 modern frontends, and the architecture diagrams.
 
