@@ -2,6 +2,7 @@
 
 
 
+
 A browser extension that shows the actual value typed into a password
 field, on demand, without breaking on React, Vue, or other frameworks that
 re-render the field and undo naive attempts at this.
